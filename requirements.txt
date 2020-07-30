@@ -1,0 +1,7 @@
+asgiref==3.2.10
+Django==3.0.8
+django-crispy-forms==1.9.2
+pdfrw==0.4
+pytz==2020.1
+shortuuid==1.0.1
+sqlparse==0.3.1
