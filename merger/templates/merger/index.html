@@ -17,7 +17,25 @@
     <div class="col-md-6 mx-auto box p-3">
      <form method="POST" class="post-form" enctype="multipart/form-data">  
           {% csrf_token %}  
-          {{ form|crispy }}  
+          <div id="div_id_file1" class="form-group"> 
+            <label for="id_file1" class=" requiredField">
+              File1<span class="asteriskField">*</span> 
+            </label> 
+            <div class=""> 
+              <input type="file" name="file1" class="clearablefileinput form-control-file" required id="id_file1"> 
+            </div> 
+            </div> <div id="div_id_file2" class="form-group"> 
+              <label for="id_file2" class=" requiredField">
+                File2<span class="asteriskField">*</span> 
+              </label> <div class=""> 
+              <input type="file" name="file2" class="clearablefileinput form-control-file" required id="id_file2"> 
+            </div> 
+          </div>
+          <div id="extraFileUploadOptions">
+
+          </div>
+          <input type="hidden" value="2" id="lastFileNo" name="lastFileNo">
+          <button type="button" class="btn btn-warning" onclick="addAnotherUpload()">Add More Files</button>
           <button type="submit" class="save btn btn-primary">Merge</button>  
   </form>  
   {% if out != "" %}
@@ -32,6 +50,39 @@
   </div>
  
 </div>
+
+<script>
+  var fileNo = 3;
+  function addAnotherUpload(){
+    uploadHtmlString = `
+        <div id="div_id_file${fileNo.toString()}" class="form-group"> 
+              <label for="id_file${fileNo.toString()}" class=" requiredField">
+                File${fileNo.toString()}<span class="asteriskField">*</span> 
+              </label> 
+              <div class="row">
+                <div class="col-md-1">
+                  <button type="button" class="save btn btn-danger" onclick="deleteUploadDiv('div_id_file${fileNo.toString()}')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                      <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                  </button>
+                </div> 
+                <div class="col-md-9"> 
+                  <input type="file" name="file${fileNo.toString()}" class="clearablefileinput form-control-file" required id="id_file${fileNo.toString()}">
+                </div>  
+              </div>
+              
+        </div>
+    `
+    document.getElementById('extraFileUploadOptions').innerHTML= document.getElementById('extraFileUploadOptions').innerHTML+uploadHtmlString;
+    document.getElementById('lastFileNo').value = fileNo;
+    fileNo = fileNo+1;
+  }
+  function deleteUploadDiv(divName){
+    document.getElementById(divName).innerHTML = '';
+  }
+</script>
 
 
 {% endblock body %}
